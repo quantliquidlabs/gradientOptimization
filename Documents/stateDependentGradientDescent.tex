@@ -1,0 +1,85 @@
+\documentclass{amsproc}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{enumerate}
+\usepackage{graphicx}
+%\usepackage{graphix}
+
+
+\setcounter{MaxMatrixCols}{10}
+%TCIDATA{OutputFilter=LATEX.DLL}
+%TCIDATA{Version=5.50.0.2953}
+%TCIDATA{<META NAME="SaveForMode" CONTENT="1">}
+%TCIDATA{BibliographyScheme=Manual}
+%TCIDATA{Created=Monday, January 04, 2010 15:01:23}
+%TCIDATA{LastRevised=Friday, February 12, 2010 15:39:34}
+%TCIDATA{<META NAME="GraphicsSave" CONTENT="32">}
+%TCIDATA{<META NAME="DocumentShell" CONTENT="Standard LaTeX\Standard LaTeX Article">}
+%TCIDATA{Language=American English}
+%TCIDATA{CSTFile=40 LaTeX article.cst}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{acknowledgement}[theorem]{Acknowledgement}
+\newtheorem{algorithm}[theorem]{Algorithm}
+\newtheorem{axiom}[theorem]{Axiom}
+\newtheorem{case}[theorem]{Case}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{conclusion}[theorem]{Conclusion}
+\newtheorem{condition}[theorem]{Condition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{criterion}[theorem]{Criterion}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{notation}[theorem]{Notation}
+\newtheorem{problem}[theorem]{Problem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{solution}[theorem]{Solution}
+\newtheorem{summary}[theorem]{Summary}
+%\newenvironment{proof}[1][Proof]{\noindent\textbf{#1.} }{\ \rule{0.5em}{0.5em}}
+
+\newcommand{\s}{\mathbb{S}^1}
+\newcommand{\E}{\mathbf{E}}
+\newcommand{\Pp}{\mathbf{P}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\cov}{\mathop{\mathsf{cov}}}
+\newcommand{\Var}{\mathop{\mathsf{Var}}}
+\newcommand{\supp}{\mathop{\mathrm{supp}}}
+\newcommand{\ONE}{{\bf 1}}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\bpf}[1][Proof]{{\noindent {\sc #1: }}}
+\newcommand{\epf}{{{\hspace{4 ex} $\Box$ \smallskip}}}
+\newcommand{\wb}{\bar}
+\newcommand{\x}{X_\eps}
+\newcommand{\tauz}{\tau_0}
+\newcommand{\Meps}{\Phi_\eps}
+\newcommand{\tauh}{\hat \sigma_\eps}
+\newcommand{\taua}{\wb \tau_\eps}
+\newcommand{\Fc}{\mathcal{F}}
+
+\title{Scaling Limit for the Diffusion Exit Problem}
+\author{Sergio A.Almada}
+
+\begin{document}
+\section{Pedro Talk}
+
+
+\[
+d x (t) = - \nabla f ( x(t) )dt + \sigma dW(t), \quad x(0) = x_0
+\]
+
+\[
+dx(t) =  -\exp\left \{ -\gamma \left (  f(x(t)) - \min_{s\leq t} f(x(s))  \right ) \right\}\nabla f ( x(t) )dt + \sigma dW(t), \quad x(0) = x_0
+\]
+
+\[
+dx(t) =  -\nabla \left( f ( x(t) ) + \int_0^t \delta(x(t),x(s))ds \right) dt + \sigma dW(t), \quad x(0) = x_0
+\]
+
+\end{document}
