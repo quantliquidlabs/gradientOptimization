@@ -57,7 +57,9 @@
 \newcommand{\epf}{{{\hspace{4 ex} $\Box$ \smallskip}}}
 \newcommand{\wb}{\bar}
 \newcommand{\x}{X_\eps}
+\newcommand{\hatx}{\hat X_\eps}
 \newcommand{\tauz}{\tau_0}
+
 \newcommand{\Meps}{\Phi_\eps}
 \newcommand{\tauh}{\hat \sigma_\eps}
 \newcommand{\taua}{\wb \tau_\eps}
@@ -69,17 +71,43 @@
 \begin{document}
 \section{Pedro Talk}
 
-
+The standard gradient descent dynamics is given by
 \[
-d x (t) = - \nabla f ( x(t) )dt + \sigma dW(t), \quad x(0) = x_0
+d x (t) = - \nabla U ( x(t) )dt + \sigma dW(t), \quad x(0) = x_0.
 \]
 
-\[
-dx(t) =  -\exp\left \{ -\gamma \left (  f(x(t)) - \min_{s\leq t} f(x(s))  \right ) \right\}\nabla f ( x(t) )dt + \sigma dW(t), \quad x(0) = x_0
-\]
+In this note we will try to study the modified dynamics
+\begin{align} \notag
+d\x(t) &=  -e^{ -\gamma \left (  U(\x(t)) - \min_{s\leq t} U(\x(s))  \right ) } \nabla U ( \x(t) )dt + \eps dW(t), \\ 
+\x(0)  &= x_0  \label{eqn: master}
+\end{align}
 
+
+\section{Idea of Analysis}
+In the analysis of~\eqref{eqn: master}, let us assume that $x_0$ is a local minimum and a stationary point; that is, $\nabla U(x_0) = 0$. Define the deterministic flow induced by the vector field $\nabla U$ starting at an arbitrary point $x\in \R^d$:
+\begin{equation} \label{eqn: master_zero_noise}
+\frac{d}{dt} S^t x = -\nabla U ( S^t x), \quad S^0 x = x.
+\end{equation}
+Then, consider the proxy process to~\eqref{eqn: master} given by 
+\begin{align} \label{eqn: hat}
+d \hatx (t) =  -e^{ -\gamma \left (  U(\hatx(t)) - \min_{s < t - \tau_i} U(S^s \hatx(\tau_i))  \right ) } \nabla U ( \hatx(t) )dt + \eps dW(t), 
+\end{align}
+on the interval $\tau_i < t < \tau_{i+1}$, where the times $\tau_i$ are the innovation times defined via $$\tau_i = \inf \left\{  t \geq \tau_{i-1}: U( \hatx (t) ) < U( \hatx (\tau_{i-1})  \right \},$$ with $\tau_0 = 0$ and the same initial condition as $\x$, $\hatx (0) = x_0$. Let us now make some observations. 
+
+The time $\tau_1$ is bounded below by the exit time of $\hatx$ from the basin of attraction, $\mathcal{B}(x_0)$, of $x_0$; that is,  
+$\tau_1 > \sigma(x_0) = \inf \left \{ t: \hatx(t) \in \partial \mathcal{B}(x_0) \right \}$, since for every $y \in \mathcal{B}(x_0)$, $\nabla U(y)\not = 0$.  Now, from FW theory, it is well known that $\sigma(x_0)$ is exponentially distributed with mean $\eps^{-2} \left( \min_{ y \in \partial \mathcal{B}(x_0) } V(y) - V(x_0) \right )$, where $V$ is the quasi-potential of~\eqref{eqn: hat}. Since, $\hatx$ does not find a new minimum of the function $U$ before time $\sigma(x_0)$, and since $\min_{t>0} U(S^t x_0) = U(x_0)$ we observe that the drift in equation~\eqref{eqn: hat} is given by $b(x) = -\nabla \left( 1 -  e^{ -\gamma \left (  U(y) - U(x_0)  \right ) } \right)$ the quasi-potential is given by 
 \[
-dx(t) =  -\nabla \left( f ( x(t) ) + \int_0^t \delta(x(t),x(s))ds \right) dt + \sigma dW(t), \quad x(0) = x_0
+V(y) = 2 - 2e^{ -\gamma \left (  U(y) - U(x_0)  \right ) }.
 \]
+As a consequence, 
+\begin{align*}
+\E \sigma(x_0) &= 2\eps^{-2}\left( 1 -  e^{ -\gamma \left (  \min_{ y \in \partial \mathcal{B}(x_0) } U(y) - U(x_0)  \right ) }  \right) \\
+&\approx 2\frac{\gamma}{\eps^2} \left (  \min_{ y \in \partial \mathcal{B}(x_0) } U(y) - U(x_0)  \right ) + \mathcal{O}\left(\frac{\gamma}{\eps^2} \right).
+\end{align*}
+
+\begin{claim}
+By choosing $\gamma = \eps^2$, as $\eps \to 0$, the exit happens in almost constant time.
+\end{claim}
+
 
 \end{document}
