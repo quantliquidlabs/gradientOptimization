@@ -35,6 +35,16 @@ class optimizationMethods:
             for k,v in kwargs.items():
                 setattr(self, k, v)
 
+    class updateFunctor:
+        def __init__(self, locals_to_store, func):
+            self.locals, self.func = locals_to_store, func
+
+        def set_env(self, locals):
+            self.env = optimizationMethods.env({y:locals.get(y, None) for y in self.locals})
+
+        def __call__(self, x):
+            return self.func(x, self.env)
+
     def __init__(self, function, dim = 2):
         self.func = function if type(function) == optimizationFuntion else \
             optimizationFunctionFactory.create(function, dim)
@@ -56,7 +66,8 @@ class optimizationMethods:
                     y_best = y.item()
                     print("iteration ", s, " best y", y_best)
 
-                x = update_rule(x, self.env(locals()))
+                update_rule.set_env(locals())
+                x = update_rule(x)
 
         return x_best, y_best
 
@@ -68,13 +79,13 @@ class optimizationMethods:
         return f
 
     def gradient_descent(self, lr, epochs, steps, initial_rule = None):
-        def update(x, env = self.env({}) ):
+        def update(x, env ):
             with torch.no_grad():
                 x -= lr*x.grad
                 x.grad.zero_()
             return x
 
-        return self.__generalDescent__(epochs, steps, update, initial_rule)
+        return self.__generalDescent__(epochs, steps, self.updateFunctor([], update), initial_rule)
 
     def perturbed_gradient_descent(self, lr, epochs, steps, perturbation_ratio, initial_rule = None):
         std = perturbation_ratio / math.sqrt(self.func.dim) * torch.ones(self.func.dim)
@@ -84,7 +95,7 @@ class optimizationMethods:
                 x.grad.zero_()
             return x
 
-        return self.__generalDescent__(epochs, steps, update, initial_rule)
+        return self.__generalDescent__(epochs, steps, self.updateFunctor([], update), initial_rule)
 
     def modified_gradient_descent(self, lr, epochs, steps, perturbation_ratio, gamma, initial_rule = None):
         std = perturbation_ratio / math.sqrt(self.func.dim) * torch.ones(self.func.dim)
@@ -94,4 +105,4 @@ class optimizationMethods:
                 x.grad.zero_()
             return x
 
-        return self.__generalDescent__(epochs, steps, update, initial_rule)
+        return self.__generalDescent__(epochs, steps, self.updateFunctor(['y','y_best'], update), initial_rule)
