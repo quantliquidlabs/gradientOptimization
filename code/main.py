@@ -6,24 +6,24 @@ torch.manual_seed(0)
 gopt = optimizationMethods(optimizationFunctionFactory.create("ackley"))
 
 print("regular gradient descent")
-x_best, y_best = gopt.gradient_descent(0.01, 1, 1000)
+res = gopt.gradient_descent(0.01, 1, 1000)
 
-print("x_best ", x_best)
-print("y_best ", y_best)
+print("x_best ", res.x_best)
+print("y_best ", res.y_best)
 
 print("perturbed gradient descent")
 
 torch.manual_seed(0)
-x_best, y_best = gopt.perturbed_gradient_descent(0.01, 1, 1000, 1)
+res = gopt.perturbed_gradient_descent(0.01, 1, 1000, 1)
 
-print("x_best ", x_best)
-print("y_best ", y_best)
+print("x_best ", res.x_best)
+print("y_best ", res.y_best)
 
 
 print("modified perturbed gradient descent")
 
 torch.manual_seed(0)
-x_best, y_best = gopt.modified_gradient_descent(0.01, 1, 1000, 1, .01)
+res = gopt.modified_gradient_descent(0.01, 1, 1000, 1, .000001)
 
-print("x_best ", x_best)
-print("y_best ", y_best)
+print("x_best ", res.x_best)
+print("y_best ", res.y_best)
