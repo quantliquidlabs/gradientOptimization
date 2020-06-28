@@ -3,7 +3,7 @@ import math
 
 from enum import Enum
 from typing import Callable, List, Tuple
-from collections import OrderedDict
+from collections import defaultdict, OrderedDict
 
 VectorD = List[float] ## or any high dimensional number representation, in particualr torch.Tensor
 
@@ -48,7 +48,7 @@ class exploraitonObject:
         IMPROVEMENTS = 2
 
     def __init__(self, verbose: bool, type_: collectionType = collectionType.IMPROVEMENTS ):
-        self.values = OrderedDict()
+        self.values = defaultdict(OrderedDict)
         self.type = type_
         self.verbose = self.__callVerbose__ if verbose else self.__nothing__
 
@@ -59,20 +59,20 @@ class exploraitonObject:
         self.y_best = y
         self.x_best = x
 
-    def __callVerbose__(self, s: int, x: VectorD, y: float)->None:
-        print("iteration ", s, ", x ", x, ", y ", y)
+    def __callVerbose__(self, epoch: int, s: int, x: VectorD, y: float)->None:
+        print( "epoch ", epoch, "iteration ", s, ", x ", x, ", y ", y)
 
-    def __add__(self, s: int, x: VectorD, y: float)->None:
-        self.values[s] = ( x, y )
-        self.verbose(s,x,y)
+    def __add__(self, epoch: int, s: int, x: VectorD, y: float)->None:
+        self.values[epoch].update({s: ( x, y ) })
+        self.verbose(epoch, s, x, y)
 
-    def __nothing__(self, s: int, x: VectorD, y: VectorD)->None: return
+    def __nothing__(self, epoch: int, s: int, x: VectorD, y: VectorD)->None: return
 
-    def __call__(self, s: int, x: VectorD, y: VectorD)->None:
-        self.addP1(s, x, y)
+    def __call__(self, epoch: int, s: int, x: VectorD, y: VectorD)->None:
+        self.addP1(epoch, s, x, y)
         if( y.item() < self.y_best ):
             self.start(x.tolist(), y.item())
-            self.addP2(s, self.x_best, self.y_best)
+            self.addP2(epoch, s, self.x_best, self.y_best)
 
 class optimizationMethods:
     class env:
@@ -107,12 +107,12 @@ class optimizationMethods:
 
         save_evolution.start([], float("inf"))
         if not initial_rule_per_eppoch: initial_rule_per_eppoch = self.__defaultInitial__()
-        for _ in range(epochs):
+        for epoch in range(epochs):
             x = initial_rule_per_eppoch(self.func.dim)
             for s in range(steps):
                 y = self.func(x)
                 y.backward()
-                save_evolution(s,x,y)
+                save_evolution(epoch, s,x,y)
                 update_rule.set_env(locals())
                 x = update_rule(x)
 
