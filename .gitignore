@@ -2,3 +2,11 @@
 *.aux
 *.log
 *.gz
+*.pyc
+*.pyc
+code/.DS_Store
+Documents/References/.DS_Store
+code/.ipynb_checkpoints/Presentation-checkpoint.ipynb
+code/.ipynb_checkpoints/Tax Calculator-checkpoint.ipynb
+Documents/.DS_Store
+Documents/References/.DS_Store
