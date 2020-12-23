@@ -93,7 +93,7 @@ Then, consider the proxy process to~\eqref{eqn: master} given by
 \begin{align} \label{eqn: hat}
 d \hatx (t) =  -e^{ -\gamma \left (  U(\hatx(t)) - \min_{s < t - \tau_i} U(S^s \hatx(\tau_i))  \right ) } \nabla U ( \hatx(t) )dt + \eps dW(t), 
 \end{align}
-on the interval $\tau_i < t < \tau_{i+1}$, where the times $\tau_i$ are the innovation times defined via $$\tau_i = \inf \left\{  t \geq \tau_{i-1}: U( \hatx (t) ) < U( \hatx (\tau_{i-1})  \right \},$$ with $\tau_0 = 0$ and the same initial condition as $\x$, $\hatx (0) = x_0$. Let us now make some observations. 
+on the interval $\tau_i < t < \tau_{i+1}$, where the times $\tau_i$ are the innovation times defined via $$\tau_i = \inf \left\{  t \geq \tau_{i-1}: U( \hatx (t) ) < U( \hatx (\tau_{i-1})  \right \},  i \geq 1,$$ and $\tau_0 = 0$ and the same initial condition as $\x$, $\hatx (0) = x_0$. Let us now make some observations. 
 
 The time $\tau_1$ is bounded below by the exit time of $\hatx$ from the basin of attraction, $\mathcal{B}(x_0)$, of $x_0$; that is,  
 $\tau_1 > \sigma(x_0) = \inf \left \{ t: \hatx(t) \in \partial \mathcal{B}(x_0) \right \}$, since for every $y \in \mathcal{B}(x_0)$, $\nabla U(y)\not = 0$.  Now, from FW theory, it is well known that $\sigma(x_0)$ is exponentially distributed with mean $\eps^{-2} \left( \min_{ y \in \partial \mathcal{B}(x_0) } V(y) - V(x_0) \right )$, where $V$ is the quasi-potential of~\eqref{eqn: hat}. Since, $\hatx$ does not find a new minimum of the function $U$ before time $\sigma(x_0)$, and since $\min_{t>0} U(S^t x_0) = U(x_0)$ we observe that the drift in equation~\eqref{eqn: hat} is given by 
