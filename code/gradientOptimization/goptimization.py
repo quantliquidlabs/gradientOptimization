@@ -29,10 +29,15 @@ class optimizationFunctionFactory:
         out += math.e + 20
         return out
 
+    @staticmethod
+    def paraboloid_fun(x: VectorD)->float:
+        return sum(xi*xi for xi in x)
+
     @classmethod
     def create(cls, type: str, dim : int = 2) -> optimizationFuntion:
         if type == "ackley": return optimizationFuntion( dim, cls.ackley_fun )
         elif type == "ratrigin": return optimizationFuntion( dim, cls.ratrigin_fun )
+        elif type == "paraboloid": return optimizationFuntion( dim, cls.paraboloid_fun )
         raise RuntimeError("Not recognized funciton type")
 
     @classmethod
@@ -164,6 +169,29 @@ class optimizationMethods:
         return self.__generalDescent__(epochs,
                                        steps,
                                        self.updateFunctor([], [], update),
+                                       expObj,
+                                       initial_rule)
+
+    def modified_gradient_descent(self,
+                                  lr: float,
+                                  epochs: int,
+                                  steps: int,
+                                  perturbation_ratio: float,
+                                  gamma: float,
+                                  verbose: bool = True,
+                                  expType: exploraitonObject.collectionType = exploraitonObject.collectionType.IMPROVEMENTS,
+                                  initial_rule: Callable[[int], VectorD] = None) -> exploraitonObject:
+        expObj = exploraitonObject(verbose, expType)
+        std = perturbation_ratio / math.sqrt(self.func.dim) * torch.ones(self.func.dim)
+        def update(x, env):
+            with torch.no_grad():
+                x -= lr * torch.normal(math.exp(-gamma * (env.y - env.y_best)) * x.grad, std)
+                x.grad.zero_()
+            return x
+
+        return self.__generalDescent__(epochs,
+                                       steps,
+                                       self.updateFunctor(['y'], [ ['save_evolution','y_best'] ], update),
                                        expObj,
                                        initial_rule)
 

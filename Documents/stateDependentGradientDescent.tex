@@ -57,6 +57,7 @@
 \newcommand{\epf}{{{\hspace{4 ex} $\Box$ \smallskip}}}
 \newcommand{\wb}{\bar}
 \newcommand{\x}{X_\eps}
+\newcommand{\y}{Y_\eps}
 \newcommand{\hatx}{\hat X_\eps}
 \newcommand{\tauz}{\tau_0}
 
@@ -92,22 +93,90 @@ Then, consider the proxy process to~\eqref{eqn: master} given by
 \begin{align} \label{eqn: hat}
 d \hatx (t) =  -e^{ -\gamma \left (  U(\hatx(t)) - \min_{s < t - \tau_i} U(S^s \hatx(\tau_i))  \right ) } \nabla U ( \hatx(t) )dt + \eps dW(t), 
 \end{align}
-on the interval $\tau_i < t < \tau_{i+1}$, where the times $\tau_i$ are the innovation times defined via $$\tau_i = \inf \left\{  t \geq \tau_{i-1}: U( \hatx (t) ) < U( \hatx (\tau_{i-1})  \right \},$$ with $\tau_0 = 0$ and the same initial condition as $\x$, $\hatx (0) = x_0$. Let us now make some observations. 
+on the interval $\tau_i < t < \tau_{i+1}$, where the times $\tau_i$ are the innovation times defined via $$\tau_i = \inf \left\{  t \geq \tau_{i-1}: U( \hatx (t) ) < U( \hatx (\tau_{i-1})  \right \},  i \geq 1,$$ and $\tau_0 = 0$ and the same initial condition as $\x$, $\hatx (0) = x_0$. Let us now make some observations. 
 
 The time $\tau_1$ is bounded below by the exit time of $\hatx$ from the basin of attraction, $\mathcal{B}(x_0)$, of $x_0$; that is,  
-$\tau_1 > \sigma(x_0) = \inf \left \{ t: \hatx(t) \in \partial \mathcal{B}(x_0) \right \}$, since for every $y \in \mathcal{B}(x_0)$, $\nabla U(y)\not = 0$.  Now, from FW theory, it is well known that $\sigma(x_0)$ is exponentially distributed with mean $\eps^{-2} \left( \min_{ y \in \partial \mathcal{B}(x_0) } V(y) - V(x_0) \right )$, where $V$ is the quasi-potential of~\eqref{eqn: hat}. Since, $\hatx$ does not find a new minimum of the function $U$ before time $\sigma(x_0)$, and since $\min_{t>0} U(S^t x_0) = U(x_0)$ we observe that the drift in equation~\eqref{eqn: hat} is given by $b(x) = -\nabla \left( 1 -  e^{ -\gamma \left (  U(y) - U(x_0)  \right ) } \right)$ the quasi-potential is given by 
+$\tau_1 > \sigma(x_0) = \inf \left \{ t: \hatx(t) \in \partial \mathcal{B}(x_0) \right \}$, since for every $y \in \mathcal{B}(x_0)$, $\nabla U(y)\not = 0$.  Now, from FW theory, it is well known that $\sigma(x_0)$ is exponentially distributed with mean $\eps^{-2} \left( \min_{ y \in \partial \mathcal{B}(x_0) } V(y) - V(x_0) \right )$, where $V$ is the quasi-potential of~\eqref{eqn: hat}. Since, $\hatx$ does not find a new minimum of the function $U$ before time $\sigma(x_0)$, and since $\min_{t>0} U(S^t x_0) = U(x_0)$ we observe that the drift in equation~\eqref{eqn: hat} is given by 
 \[
-V(y) = 2 - 2e^{ -\gamma \left (  U(y) - U(x_0)  \right ) }.
+b(x) = - \gamma^{-1} \nabla \left( 1 -  e^{ -\gamma \left (  U(y) - U(x_0)  \right ) } \right),
 \]
-As a consequence, 
+so the quasi-potential is given by $V(y) = \frac{2}{\gamma}\left(1- e^{ -\gamma \left (  U(y) - U(x_0)  \right ) } \right).$
+As a consequence, the exit time $\sigma(x_0)$ is exponentially distributed with mean $\lambda$ given by
 \begin{align*}
-\E \sigma(x_0) &= 2\eps^{-2}\left( 1 -  e^{ -\gamma \left (  \min_{ y \in \partial \mathcal{B}(x_0) } U(y) - U(x_0)  \right ) }  \right) \\
-&\approx 2\frac{\gamma}{\eps^2} \left (  \min_{ y \in \partial \mathcal{B}(x_0) } U(y) - U(x_0)  \right ) + \mathcal{O}\left(\frac{\gamma}{\eps^2} \right).
+\log \lambda &= \frac{2}{\gamma \eps^2} \left( 1 -  e^{ -\gamma \left (  \min_{ y \in \partial \mathcal{B}(x_0) } U(y) - U(x_0)  \right ) }  \right).
 \end{align*}
+So that if this expression is of constant order, then for some constant $c>0$ and with $\Delta_{ x_0 } = \min_{ y \in \partial \mathcal{B}(x_0) } U(y) - U(x_0)$ it follows that, for $\gamma$ and $\eps$ small enough,
+\begin{align*}
+\gamma \Delta_{x_0} &= \log \left( 1 - \gamma \eps^2 c \right) \\
+&=  \log\left(  1 + \sum_{i\geq 1} \gamma^i \eps^{2i} c^i \right)\\
+&\approx \gamma \eps^2 c + \gamma^2 \eps^4 c^2.
+\end{align*}
+This quadratic equation has a unique strictly positive solution given by $\eps^4 c^2 \gamma = \Delta_{x_0} - \eps^2 c$, which leads to the following:
 
 \begin{claim}
-By choosing $\gamma = \eps^2$, as $\eps \to 0$, the exit happens in almost constant time.
+By choosing $\gamma = \mathcal{O}( \eps^{-4} )$, as $\eps \to 0$, the exit from the basin of attraction $\mathcal{B}(x_0)$ happens in almost constant time.
 \end{claim}
 
+\section{Some Potential Discretizations}
+Let us consider SDE~\eqref{eqn: master} up to time $\tau_1$, so that the law of $\x$ is the same as the law of 
+\[
+d\y(t) = - e^{ - \gamma \left(  U(\y(t)) - U(x_0) \right )} \nabla U(\y(t)) dt + \eps dW(t)
+\]
+Then observe that, if we create a uniform equidistant discretization, $\mathcal{P}=\left\{ 0=t_0 < t_1 <.... \right \}$ of $[0,\infty)$ with $t_1 = \eta$, then it follows that 
+\begin{align} \notag
+\y(t_{i+1})  &= \y(t_i) - \int_{t_i}^{t_{i+1}}   e^{ - \gamma \left(  U(\y(s)) - U(x_0) \right )} \nabla U(\y(s))ds + \eps \left( W(t_{i+1}) - W(t_i) \right) \\
+&\approx \y(t_i) - \eta \left(   e^{ - \gamma \left(  U(\y(t_i)) - U(x_0) \right )} \nabla U(\y(s))ds + \frac{\eps}{\sqrt{\eta}} \xi_i \right). \label{eqn: discrete}
+\end{align}
+By comparing the last expression with the characterization of the algorithm, it follows that $\eps = \sqrt{\eta}$, so that $\gamma \approx \eta^{-2}$ giving rise to the claim. 
+\begin{claim}\label{claim: convergence}
+Let $y_0 = x_0$, and consider the algorithm,  
+\begin{equation} \label{eqn: algo}
+y_{i+1} = y_i  - \eta \left( e^{ -\eta^{-2} \left( U_i - U^*_i  \right) } \nabla U_i + \xi_i \right), \quad i \in \mathbb{N},
+\end{equation}
+where we have used the short hand notation $U_i = U(y_i)$ and $U^*_i = \min_{ j \leq i } U_j $. Then, with high probability, after $\mathcal{O}(\eta^{-1})$ time steps, $y_i$ scapes the set $\mathcal{B}(x_0)$.
+\end{claim}
+\subsection{Quantitative Estimates for the Discrete Approximation}
+A necessary towards the proof of Claim~\ref{claim: convergence} is to get an estimate of the approximation given in~\eqref{eqn: discrete} comparing the continuous SDE with the discrete algorithm proposed in~\eqref{eqn: algo}. 
+
+First observe that, if we define $\rho(y) = e^{ - \eta^{-2} \left(  U(y) - U(x_0) \right )}$ with its respective short hand discrete reduction $\rho_i = \rho(y_i)$, it follows that 
+\begin{align*}
+\y(t_{i+1}) - y_{i+1} &= \y(t_i) - y_i  - \int_{t_i}^{t_{i+1}} \left(  \rho(\y(s) ) \nabla U(\y(s)) - \rho_i \nabla U_i \right ) ds \\
+& = \y(t_i) - y_i  - \int_{t_i}^{t_{i+1}} \left(  \rho(\y(s) ) - \rho_i \right) \nabla U(\y(s)) ds 
+\\ & \quad - \int_{t_i}^{t_{i+1}} \rho_i\left(\nabla U(\y(s)) -  \nabla U_i \right ) ds,
+\end{align*}
+so that if we define $\alpha_i = \left\vert  \y(t_{i+1}) - y_{i+1} \right\vert$, triangle inequality combined with jensen's inequality implies that 
+$\alpha_{i+1} \leq \alpha_i + A_i + B_i,$ where we have defined 
+\begin{align*}
+A_i &=   \int_{t_i}^{t_{i+1}} \left\vert  \rho(\y(s) ) - \rho_i \right\vert \left \vert \nabla U(\y(s)) \right \vert ds \text{ and }\\
+B_i &= \int_{t_i}^{t_{i+1}} \rho_i\left\vert\nabla U(\y(s)) -  \nabla U_i \right\vert ds.
+\end{align*}
+Let us start with the analysis for $A_i$, by taking the supremum inside the integral, 
+\begin{align*}
+A_i  &\leq \eta \left \vert \nabla U \right \vert_\infty \sup_{ s\in [t_i, t_{i+1}) } \left\vert  \rho(\y(s) ) - \rho_i \right\vert \\
+&\leq \eta \rho_i \left \vert \nabla U \right \vert_\infty \sup_{ s\in [t_i, t_{i+1}) } \left\vert  e^{ - \eta^{-2} \left(  U(\y(s)) - U_i \right )} - 1\right\vert \\
+&\leq \rho_i \left \vert \nabla U \right \vert_\infty \sum_{j \geq 1 } \frac{ \eta^{1 - 2j } }{j!}  \sup_{ s\in [t_i, t_{i+1}) } \left \vert  U(\y(s)) - U_i \right \vert^j   \\
+&\leq \eta^{-1} \rho_i \left \vert \nabla U \right \vert_\infty^2 \sum_{j \geq 1 } \frac{ \eta^{- 2(j-1) } }{(j-1)!} \left \vert \nabla U \right \vert_\infty^{j-1} \alpha_i^{j-1} \alpha_i \\
+&\leq \eta^{-1} \rho_i \alpha_i C,
+\end{align*}
+for some $C>0$. Likewise, using the lipshitz constant, $\ell$, off $\nabla U$, we see that $B_i$ satisfies $B_i \leq \eta \ell \alpha_i$, and as a consequence,  we get that 
+\[
+\alpha_{i+1} \leq \alpha_i \left( 1 + C \eta^{-1} \rho_i + \ell \eta \right),
+\]
+which readily implies that 
+\[
+\log \alpha_{i+1} \leq \log \alpha_0 + \sum_{ 1 \leq j \leq i } \log \left(  1 + C \eta^{-1} \rho_j + \ell \eta  \right ).
+\]
+From the definition of $\rho_i$, it follows that $\limsup_{\eta \to 0 } \eta^{-k} \max_{ j \in \mathbb{N} } \rho_j = 0 $ for every $k\geq 1$, so in particular, for a constant $c_1>0$, we get that 
+\[
+\log \alpha_{i+1} \leq \log \alpha_0 + i c_1 \eta.
+\]
+So, using the modulus of continuity of the continuous process, the following claim follows:
+\begin{claim}
+After $T>0$ steps, for some constant $c>0$, it follows that 
+\[
+\max_{ 1 \leq i \leq T } \left \vert \y(t_i) - y_i \right \vert \leq e^{c\eta T } \sqrt{ -\eta \log \eta }.
+\]
+In particular, with high probability, after $\mathcal{O}(\eta^{-1})$ number of time steps, $y_i$ is at a distance of at most $\mathcal{O}(\sqrt{-\eta})$ from escaping $\mathcal{B}_{x_0}$.
+\end{claim}
 
 \end{document}
